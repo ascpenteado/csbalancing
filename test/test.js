@@ -42,7 +42,7 @@ describe("Customer Success Balancing", function () {
     });
 
     it("test_scenario_three should return 999", function () {
-        this.timeout(1000)
+        this.timeout(1000);
         let customer_success = new Array(1000, 0);
         customer_success[998] = 100;
 
@@ -52,21 +52,36 @@ describe("Customer Success Balancing", function () {
     });
 
     it("test_scenario_four should return 0", function () {
-        assert.equal(balancer(array_to_map([1, 2, 3, 4, 5, 6]), array_to_map([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]), []), 0);
+        assert.equal(
+            balancer(array_to_map([1, 2, 3, 4, 5, 6]), array_to_map([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]), []),
+            0
+        );
     });
-        
+
     it("test_scenario_five should return 1", function () {
-        let result = balancer(array_to_map([100, 2, 3, 3, 4, 5]), array_to_map([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]), []);
+        let result = balancer(
+            array_to_map([100, 2, 3, 3, 4, 5]),
+            array_to_map([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]),
+            []
+        );
         assert.equal(result, 1);
     });
 
     it("test_scenario_six should return 0", function () {
-        let result = balancer(array_to_map([100, 99, 88, 3, 4, 5]), array_to_map([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]), [1, 3, 2]);
-        assert.equal(result, 0)
+        let result = balancer(
+            array_to_map([100, 99, 88, 3, 4, 5]),
+            array_to_map([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]),
+            [1, 3, 2]
+        );
+        assert.equal(result, 0);
     });
 
     it("test_scenario_seven should return 3", function () {
-        let result = balancer(array_to_map([100, 99, 88, 3, 4, 5]), array_to_map([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]), [4, 5, 6])
+        let result = balancer(
+            array_to_map([100, 99, 88, 3, 4, 5]),
+            array_to_map([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]),
+            [4, 5, 6]
+        );
         assert.equal(result, 3);
     });
 });
