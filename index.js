@@ -15,13 +15,6 @@ function CustomerSuccessBalancing(cs, customers, cs_away) {
         return 0;
     }
 
-    // let a = qualifiedCS.length + (qualifiedCS.length * sortedCustomers.length);
-    // let b = sortedCustomers.length + (qualifiedCS.length * sortedCustomers.length);
-
-    // console.log(`Loop A: ${a}`);
-    // console.log(`Loop B: ${b}`);
-    // console.log(`B - A : ${b - a}`);
-
     // For each qualified CS, check Customer Level against CS Score
     for (let i = 0; i < qualifiedCS.length; i++) {
         let totalAccounts = 0;
@@ -34,8 +27,6 @@ function CustomerSuccessBalancing(cs, customers, cs_away) {
         }
         qualifiedCS[i].accounts = totalAccounts;
     }
-
-    // qualifiedCS.
 
     // Check for a tie
     for (let i = 0; i < qualifiedCS.length; i++) {
