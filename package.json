@@ -1,7 +1,7 @@
 {
-  "name": "VacantImaginaryDemos",
+  "name": "desafio-rotation",
   "version": "1.0.0",
-  "description": "",
+  "description": "Desafio para vaga interna. ",
   "main": "index.js",
   "scripts": {
     "test": "mocha || true"
