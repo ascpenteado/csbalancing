@@ -48,9 +48,11 @@ describe("Customer Success Balancing", function () {
     it("test_scenario_three should return 999", function () {
         this.timeout(1000);
         const customer_success = new Array(1000, 0);
+        customer_success.fill(0);
         customer_success[998] = 100;
 
-        const customers = new Array(10000, 10);
+        const customers = new Array(10000);
+        customers.fill(10);
 
         const balancer = new CustomerSuccessBalancing(array_to_map(customer_success), array_to_map(customers), [1000]);
         const result = balancer.execute();
