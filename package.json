@@ -1,7 +1,7 @@
 {
   "name": "desafio-rotation",
   "version": "1.0.0",
-  "description": "Desafio para vaga interna. ",
+  "description": "Desafio para vaga interna.",
   "main": "index.js",
   "scripts": {
     "test": "mocha || true"
@@ -9,7 +9,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^8.2.1"
   }
