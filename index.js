@@ -36,6 +36,7 @@ class CustomerSuccessBalancing {
                 }
             }
             qualifiedCS[i].accounts = totalAccounts;
+            // console.log(qualifiedCS[i]);
         }
 
         // Check for a tie

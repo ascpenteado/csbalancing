@@ -1,28 +1,39 @@
-function CustomerSuccessBalancing(cs, customers, cs_away) {
-    const sortedCustomers = customers.sort(scoreAsc);
-
-    const activeCS = cs.filter((x) => !cs_away.includes(x.id)).sort(scoreAsc);
-
-    const qualifiedCS = activeCS.filter((x) => x.score >= sortedCustomers[0].score);
-
-    if (qualifiedCS.length < 1) {
-        return 0;
+class CustomerSuccessBalancing {
+    constructor(cs, customers, cs_away) {
+        this.cs = cs;
+        this.customers = customers;
+        this.cs_away = cs_away;
     }
 
-    const csSearch = (array, target) => {
+    // Sorting Helpers
+    scoreAsc(a, b) {
+        return a.score - b.score;
+    }
+
+    accountDesc(a, b) {
+        return b.account - a.account;
+    }
+
+    csSearch = (array, target) => {
         let startIndex = 0;
         let endIndex = array.length - 1;
 
         while (startIndex <= endIndex) {
             if (target <= array[startIndex].score) {
-                array[startIndex].accounts = array[startIndex].accounts + 1;
-                console.log(array[startIndex]);
                 return array[startIndex].id;
             }
 
             let middleIndex = Math.floor((startIndex + endIndex) / 2);
             let nextIndex = middleIndex + 1;
             let prevIndex = middleIndex - 1;
+
+            if (nextIndex > endIndex) {
+                nextIndex = endIndex;
+            }
+
+            if (prevIndex < startIndex) {
+                prevIndex = startIndex;
+            }
 
             if (target === array[middleIndex].score) {
                 return array[middleIndex].id;
@@ -42,78 +53,52 @@ function CustomerSuccessBalancing(cs, customers, cs_away) {
 
             if (target < array[middleIndex].score) {
                 endIndex = middleIndex - 1;
-            }
-        }
-
-        return 0;
-    };
-
-    for (let i = 0; i < sortedCustomers.length; i++) {
-        let totalAccounts = 0;
-
-        let csID = csSearch(qualifiedCS, sortedCustomers[i].score);
-
-        // for (let k = 0; k < sortedCustomers.length; k++) {
-        //     if (sortedCustomers[k].score <= qualifiedCS[i].score) {
-        //         totalAccounts++;
-        //         sortedCustomers.splice(sortedCustomers[k], 1);
-        //         k--;
-        //     }
-        // }
-        // qualifiedCS[i].accounts = totalAccounts;
-    }
-
-    // For each qualified CS, check Customer Level against CS Score
-    // for (let i = 0; i < qualifiedCS.length; i++) {
-    //     let totalAccounts = 0;
-    //     for (let k = 0; k < sortedCustomers.length; k++) {
-    //         if (sortedCustomers[k].score <= qualifiedCS[i].score) {
-    //             totalAccounts++;
-    //             sortedCustomers.splice(sortedCustomers[k], 1);
-    //             k--;
-    //         }
-    //     }
-    //     qualifiedCS[i].accounts = totalAccounts;
-    // }
-
-    // Check for a tie
-    for (let i = 0; i < qualifiedCS.length; i++) {
-        if (i > 0) {
-            if (qualifiedCS[i].accounts !== qualifiedCS[i - 1].accounts) {
-                break;
             } else {
                 return 0;
             }
         }
-    }
+    };
 
-    // Return CSM with the highest accounts number
-    return qualifiedCS.sort(accountDesc)[0].id;
+    execute() {
+        const sortedCustomers = this.customers.sort(this.scoreAsc);
 
-    // Sorting Helpers
-    function scoreAsc(a, b) {
-        return a.score - b.score;
-    }
+        const activeCS = this.cs.filter((x) => !this.cs_away.includes(x.id)).sort(this.scoreAsc);
 
-    function accountDesc(a, b) {
-        return b.account - a.account;
+        const qualifiedCS = activeCS
+            .map((aCS) => {
+                let newAcs = Object.assign({}, aCS);
+                newAcs.accounts = 0;
+                return newAcs;
+            })
+            .filter((x) => x.score >= sortedCustomers[0].score);
+
+        if (qualifiedCS.length < 1) {
+            return 0;
+        }
+
+        // For each customer associate a CSM
+        for (let i = 0; i < sortedCustomers.length; i++) {
+            const csm = this.csSearch(qualifiedCS, sortedCustomers[i].score);
+            if (csm === 0) {
+                return 0;
+            }
+            qualifiedCS.find((qCS) => qCS.id === csm).accounts++;
+        }
+
+        // Check for a tie
+        for (let i = 0; i < qualifiedCS.length; i++) {
+            if (i > 0) {
+                if (qualifiedCS[i].accounts !== qualifiedCS[i - 1].accounts) {
+                    break;
+                } else {
+                    return 0;
+                }
+            }
+        }
+
+        // Return CSM with the highest accounts number
+        return qualifiedCS.sort(this.accountDesc)[0].id;
     }
 }
 
-let css = [
-    { id: 1, score: 60 },
-    { id: 2, score: 20 },
-    { id: 3, score: 95 },
-    { id: 4, score: 75 },
-];
-
-let customers = [
-    { id: 1, score: 90 },
-    { id: 2, score: 20 },
-    { id: 3, score: 70 },
-    { id: 4, score: 40 },
-    { id: 5, score: 60 },
-    { id: 6, score: 10 },
-];
-
-CustomerSuccessBalancing(css, customers, []);
+module.exports = CustomerSuccessBalancing;

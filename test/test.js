@@ -1,5 +1,5 @@
 const assert = require("chai").assert;
-const CustomerSuccessBalancing = require("../index.js");
+const CustomerSuccessBalancing = require("../v2.js");
 
 // Array to Map Helper
 function array_to_map(arr) {
@@ -51,7 +51,7 @@ describe("Customer Success Balancing", function () {
         customer_success.fill(0);
         customer_success[998] = 100;
 
-        const customers = new Array(10000);
+        const customers = new Array(100000);
         customers.fill(10);
 
         const balancer = new CustomerSuccessBalancing(array_to_map(customer_success), array_to_map(customers), [1000]);
