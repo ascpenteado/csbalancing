@@ -1,16 +1,12 @@
 function CustomerSuccessBalancing(cs, customers, cs_away) {
-    // Sorting Costumers
     const sortedCustomers = customers.sort(scoreAsc);
 
-    // Find CSs away and remove them from CSs array
     const activeCS = cs.filter((x) => !cs_away.includes(x.id)).sort(scoreAsc);
 
-    // Find CSs without minimum Customer Level and remove them
     const qualifiedCS = activeCS.filter((x) => {
         return x.score >= sortedCustomers[0].score;
     });
 
-    // If there's no CSs qualified, return 0
     if (qualifiedCS.length < 1) {
         return 0;
     }
